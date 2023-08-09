@@ -1,14 +1,25 @@
 {
-  "name": "tokens-to-css",
+  "name": "tokens-to-styles",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "An util repository to convert or sync object tokens to CSS module variables",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "jest"
   },
-  "author": "",
-  "license": "ISC",
+  "keywords": [],
+  "author": "Thiago Sciotta",
+  "license": "MIT",
   "dependencies": {
-    "prettier": "^3.0.1"
+    "js-beautify": "^1.14.9"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.22.10",
+    "@babel/preset-typescript": "^7.22.5",
+    "@types/jest": "^29.5.3",
+    "jest": "^29.6.2",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.1.6"
   }
 }
