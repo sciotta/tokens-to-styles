@@ -13,8 +13,8 @@ describe('tokensToCssModule function', () => {
     };
 
     const result = tokensToCssModule(tokensObj, options);
-    const expectedOutput = `:root {--fontSize: 16px;\n--color: red;\n}`;
-    
+    const expectedOutput = `:root {\n  --fontSize: 16px;\n  --color: red;\n}`;
+
     expect(result).toBe(expectedOutput);
   });
 
@@ -32,8 +32,8 @@ describe('tokensToCssModule function', () => {
     };
 
     const result = tokensToCssModule(tokensObj, options);
-    const expectedOutput = `:root {\n/* spacing */\n--spacing-small: 8px;\n--spacing-medium: 16px;\n}`;
-    
+    const expectedOutput = `:root {\n  /* spacing */\n  --spacing-small: 8px;\n  --spacing-medium: 16px;\n}`;
+
     expect(result).toBe(expectedOutput);
   });
 });

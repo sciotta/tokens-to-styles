@@ -24,6 +24,19 @@ function formatCategoryComment(key: string, output: string): string {
   return output ? `\n/* ------------------------- */\n\n/* ${key} */\n` : `\n/* ${key} */\n`;
 }
 
+function formatCssWithPrettier(css: string): string {
+  try {
+    const formattedCss =  beautify(css, {
+      indent_size: 2,
+      indent_char: ' ',
+    });
+    return formattedCss;
+  } catch (error) {
+    console.error('Error formatting CSS:', error);
+    return css;
+  }
+}
+
 export function tokensToCssModule(
   tokensObj: Record<string, any>,
   options: Options = {},
@@ -51,15 +64,5 @@ export function tokensToCssModule(
     }}`;
   }
 
-  return output;
-}
-
-export async function formatCssWithPrettier(css: string): Promise<string> {
-  try {
-    const formattedCss = await beautify(css);
-    return formattedCss;
-  } catch (error) {
-    console.error('Error formatting CSS:', error);
-    return css;
-  }
+  return formatCssWithPrettier(output);
 }
