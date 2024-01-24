@@ -1,6 +1,6 @@
 {
   "name": "tokens-to-styles",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An util repository to convert or sync object tokens to CSS module variables",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
