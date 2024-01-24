@@ -27,6 +27,8 @@ jobs:
           node-version: "20.8.1"
       - name: Install dependencies
         run: npm clean-install
+      - name: Build application
+        run: npm run build
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
       - name: Release
