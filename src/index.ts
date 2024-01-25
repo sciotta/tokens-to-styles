@@ -27,9 +27,9 @@ function formatVariable(
   prefix: string,
   options: Options
 ): string {
-  const sanitizedKey = sanitizeKey(key);
+  const sanitizedKey = sanitizeKey(`${prefix}${key}`);
   const unit = options.unit ?? 'px';
-  let finalkey = `${prefix}${sanitizedKey}`;
+  let finalkey = sanitizedKey;
   let finalValue = formatValue(value, unit);
 
   if (options.transform) {
