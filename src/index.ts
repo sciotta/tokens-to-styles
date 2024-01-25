@@ -1,12 +1,24 @@
 const beautify = require('js-beautify').css;
 
+type TransformFunction = (key: string, value: any) => { key: string; value: any } | null;
 interface Options {
-  pretty?: boolean;
   unit?: string;
+  transform?: TransformFunction;
 }
 
 function formatValue(value: any, unit: string): string {
   return !isNaN(value) && value !== 0 ? `${value}${unit}` : value;
+}
+
+function sanitizeKey(key: string): string {
+  key = key.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+
+  let sanitizedKey = key.replace(/\./g, '-');
+  sanitizedKey = sanitizedKey.replace(/[^a-zA-Z0-9-_]/g, '');
+  if (/^\d/.test(sanitizedKey)) {
+    sanitizedKey = `_${sanitizedKey}`;
+  }
+  return sanitizedKey;
 }
 
 function formatVariable(
@@ -15,9 +27,21 @@ function formatVariable(
   prefix: string,
   options: Options
 ): string {
-  const unit = options.unit || 'px';
-  const formattedValue = formatValue(value, unit);
-  return `--${prefix}${key}: ${formattedValue};\n`;
+  const sanitizedKey = sanitizeKey(key);
+  const unit = options.unit ?? 'px';
+  let finalkey = `${prefix}${sanitizedKey}`;
+  let finalValue = formatValue(value, unit);
+
+  if (options.transform) {
+    const result = options.transform(finalkey, finalValue);
+    if (result === null) {
+      return '';
+    }
+    finalkey = result.key;
+    finalValue = result.value;
+  }
+
+  return `--${finalkey}: ${finalValue};\n`;
 }
 
 function formatCategoryComment(key: string, output: string): string {
@@ -59,9 +83,7 @@ export function tokensToCssModule(
   }
 
   if (prefix === '') {
-    output = `:root {${options.pretty ? '\n' : ''}${output}${
-      options.pretty ? '\n' : ''
-    }}`;
+    output = `:root {${output}}`;
   }
 
   return formatCssWithPrettier(output);
