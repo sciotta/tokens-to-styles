@@ -52,4 +52,26 @@ describe('tokensToCssModule function', () => {
 
     expect(result).toBe(expectedOutput);
   });
+
+  test('should transform CSS variable names', () => {
+    const tokensObj = {
+      fontSize: 16,
+    };
+
+    const options = {
+      pretty: false,
+      unit: 'px',
+      transform: (key: string, value: string) => {
+        return {
+          key: `${key}abc`,
+          value,
+        };
+      },
+    };
+
+    const result = tokensToCssModule(tokensObj, options);
+    const expectedOutput = `:root {\n  --font-sizeabc: 16px;\n}`;
+
+    expect(result).toBe(expectedOutput);
+  });
 });

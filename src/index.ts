@@ -1,8 +1,9 @@
 const beautify = require('js-beautify').css;
 
+type TransformFunction = (key: string, value: any) => { key: string; value: any } | null;
 interface Options {
-  pretty?: boolean;
   unit?: string;
+  transform?: TransformFunction;
 }
 
 function formatValue(value: any, unit: string): string {
@@ -27,9 +28,20 @@ function formatVariable(
   options: Options
 ): string {
   const sanitizedKey = sanitizeKey(key);
-  const unit = options.unit || 'px';
-  const formattedValue = formatValue(value, unit);
-  return `--${prefix}${sanitizedKey}: ${formattedValue};\n`;
+  const unit = options.unit ?? 'px';
+  let finalkey = `${prefix}${sanitizedKey}`;
+  let finalValue = formatValue(value, unit);
+
+  if (options.transform) {
+    const result = options.transform(finalkey, finalValue);
+    if (result === null) {
+      return '';
+    }
+    finalkey = result.key;
+    finalValue = result.value;
+  }
+
+  return `--${finalkey}: ${finalValue};\n`;
 }
 
 function formatCategoryComment(key: string, output: string): string {
@@ -71,9 +83,7 @@ export function tokensToCssModule(
   }
 
   if (prefix === '') {
-    output = `:root {${options.pretty ? '\n' : ''}${output}${
-      options.pretty ? '\n' : ''
-    }}`;
+    output = `:root {${output}}`;
   }
 
   return formatCssWithPrettier(output);
