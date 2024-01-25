@@ -9,15 +9,27 @@ function formatValue(value: any, unit: string): string {
   return !isNaN(value) && value !== 0 ? `${value}${unit}` : value;
 }
 
+function sanitizeKey(key: string): string {
+  key = key.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+
+  let sanitizedKey = key.replace(/\./g, '-');
+  sanitizedKey = sanitizedKey.replace(/[^a-zA-Z0-9-_]/g, '');
+  if (/^\d/.test(sanitizedKey)) {
+    sanitizedKey = `_${sanitizedKey}`;
+  }
+  return sanitizedKey;
+}
+
 function formatVariable(
   key: string,
   value: any,
   prefix: string,
   options: Options
 ): string {
+  const sanitizedKey = sanitizeKey(key);
   const unit = options.unit || 'px';
   const formattedValue = formatValue(value, unit);
-  return `--${prefix}${key}: ${formattedValue};\n`;
+  return `--${prefix}${sanitizedKey}: ${formattedValue};\n`;
 }
 
 function formatCategoryComment(key: string, output: string): string {

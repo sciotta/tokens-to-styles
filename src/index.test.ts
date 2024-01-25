@@ -13,7 +13,7 @@ describe('tokensToCssModule function', () => {
     };
 
     const result = tokensToCssModule(tokensObj, options);
-    const expectedOutput = `:root {\n  --fontSize: 16px;\n  --color: red;\n}`;
+    const expectedOutput = `:root {\n  --font-size: 16px;\n  --color: red;\n}`;
 
     expect(result).toBe(expectedOutput);
   });
@@ -33,6 +33,22 @@ describe('tokensToCssModule function', () => {
 
     const result = tokensToCssModule(tokensObj, options);
     const expectedOutput = `:root {\n  /* spacing */\n  --spacing-small: 8px;\n  --spacing-medium: 16px;\n}`;
+
+    expect(result).toBe(expectedOutput);
+  });
+
+  test('should sanitize when attribute uses a dot character', () => {
+    const tokensObj = {
+      'font-size': 16,
+    };
+
+    const options = {
+      pretty: false,
+      unit: 'px',
+    };
+
+    const result = tokensToCssModule(tokensObj, options);
+    const expectedOutput = `:root {\n  --font-size: 16px;\n}`;
 
     expect(result).toBe(expectedOutput);
   });
