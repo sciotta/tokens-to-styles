@@ -57,6 +57,15 @@ function formatCssWithPrettier(css: string): string {
   }
 }
 
+function processObjectValue(key: string, value: any, options: Options, prefix: string, output: string): string {
+  output = formatCategoryComment(key, output);
+  return output + tokensToCssModule(value, options, `${prefix}${key}-`);
+}
+
+function processNonObjectValue(key: string, value: any, prefix: string, options: Options): string {
+  return formatVariable(key, value, prefix, options);
+}
+
 /**
  * @param options - This is an optional object that can be used to customize the output
  */
@@ -95,12 +104,9 @@ export function tokensToCssModule(
       const value = tokensObj[key];
       const valueType = typeof value;
 
-      if (valueType === 'object') {
-        output += formatCategoryComment(key, output);
-        output += tokensToCssModule(value, options, `${prefix}${key}-`);
-      } else {
-        output += formatVariable(key, value, prefix, options);
-      }
+      output += valueType === 'object' 
+        ? processObjectValue(key, value, options, prefix, output) 
+        : processNonObjectValue(key, value, prefix, options);
     }
   }
 
