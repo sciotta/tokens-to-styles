@@ -57,13 +57,32 @@ function formatCssWithPrettier(css: string): string {
   }
 }
 
-function processObjectValue(key: string, value: any, options: Options, prefix: string, output: string): string {
-  output = formatCategoryComment(key, output);
-  return output + tokensToCssModule(value, options, `${prefix}${key}-`);
+function processObjectValue(params : { key: string, value: any, options: Options, prefix: string, output: string }): string {
+  params.output = formatCategoryComment(params.key, params.output);
+  return params.output + tokensToCssModule(params.value, params.options, `${params.prefix}${params.key}-`);
 }
 
 function processNonObjectValue(key: string, value: any, prefix: string, options: Options): string {
   return formatVariable(key, value, prefix, options);
+}
+
+function processKey(key: string, tokensObj: Record<string, any>, options: Options, prefix: string, output: string): string {
+  const value = tokensObj[key];
+  const valueType = typeof value;
+
+  return valueType === 'object' 
+    ? processObjectValue({ key, value, options, prefix, output}) 
+    : processNonObjectValue(key, value, prefix, options);
+}
+
+function processKeys(tokensObj: Record<string, any>, options: Options, prefix: string): string {
+  let output = '';
+  for (const key in tokensObj) {
+    if (tokensObj.hasOwnProperty(key)) {
+      output += processKey(key, tokensObj, options, prefix, output);
+    }
+  }
+  return output;
 }
 
 /**
@@ -97,18 +116,7 @@ export function tokensToCssModule(
   /** @ignore */
   prefix = ''
 ): string {
-  let output = '';
-
-  for (const key in tokensObj) {
-    if (tokensObj.hasOwnProperty(key)) {
-      const value = tokensObj[key];
-      const valueType = typeof value;
-
-      output += valueType === 'object' 
-        ? processObjectValue(key, value, options, prefix, output) 
-        : processNonObjectValue(key, value, prefix, options);
-    }
-  }
+  let output = processKeys(tokensObj, options, prefix);
 
   if (prefix === '') {
     output = `:root {${output}}`;
