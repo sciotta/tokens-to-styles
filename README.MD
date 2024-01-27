@@ -16,7 +16,7 @@ npm install tokens-to-styles
 ## Usage
 
 ```javascript
-const tts = require('tokens-to-styles');
+const { TokensConverter } = require('tokens-to-styles');
 
 const tokens = {
   colors: {
@@ -30,8 +30,8 @@ const tokens = {
   },
 };
 
-const styles = tts.tokensToCssModule(tokens);
-console.log(styles);
+const css = TokensConverter.toCssVariables(tokens);
+console.log(css);
 ```
 
 This will output:
@@ -57,7 +57,4 @@ The `tokens-to-styles` library takes a JavaScript object representing design tok
 
 ## API
 
-### tokensToCssModule(tokens)
 
- ***tokens***: An object containing design tokens organized by categories (e.g., colors, fontSizes).
-Returns a string representing the CSS module with variables exported through the `:root` pseudo-class.
