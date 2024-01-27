@@ -30,7 +30,8 @@ const tokens = {
   },
 };
 
-const css = TokensConverter.toCssVariables(tokens);
+const tokensConverter = new TokensConverter();
+const css = tokensConverter.toCssVariables(tokens);
 console.log(css);
 ```
 
