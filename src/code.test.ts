@@ -1,4 +1,4 @@
-import { tokensToCssModule } from './index';
+import { tokensToCssModule } from './code';
 
 describe('tokensToCssModule function', () => {
   test('should generate CSS variables', () => {

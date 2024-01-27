@@ -1,0 +1,12 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "sort": ["kind", "instance-first", "required-first", "alphabetical"],
+  "treatWarningsAsErrors": false,
+  "searchInComments": true,
+  "entryPoints": ["./src/index.ts"],
+  "out": "public",
+  "hideGenerator": true,
+  "navigationLinks": {
+    "GitHub": "https://github.com/thiagog3/tokens-to-styles"
+  }
+}
