@@ -1,0 +1,36 @@
+name: Report Coverage
+on:
+  pull_request:
+    branches:
+      - 'main'
+  push:
+    branches:
+      - main
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install Node Modules
+        run: npm ci
+
+      - name: Report Coverage
+        uses: paambaati/codeclimate-action@v5.0.0
+        env:
+          CC_TEST_REPORTER_ID: 9948df1b5c582f3da79138cedc81dc5d8c852577c4bd07fa47a1e4d4e9390ddb
+        with:
+          coverageCommand: npm run coverage
