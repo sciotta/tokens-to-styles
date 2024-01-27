@@ -1,5 +1,8 @@
 # tokens-to-styles
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/063bc4e8997202b230d3/maintainability)](https://codeclimate.com/github/thiagog3/tokens-to-styles/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/063bc4e8997202b230d3/test_coverage)](https://codeclimate.com/github/thiagog3/tokens-to-styles/test_coverage)
+
 A simple JavaScript library for converting design tokens into CSS variables exported through the `:root` pseudo-class.
 
 ## Installation
