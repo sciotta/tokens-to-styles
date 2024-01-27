@@ -66,20 +66,20 @@ function processNonObjectValue(key: string, value: any, prefix: string, options:
   return formatVariable(key, value, prefix, options);
 }
 
-function processKey(key: string, tokensObj: Record<string, any>, options: Options, prefix: string, output: string): string {
-  const value = tokensObj[key];
+function processKey(params: { key: string, tokensObj: Record<string, any>, options: Options, prefix: string, output: string }): string {
+  const value = params.tokensObj[params.key];
   const valueType = typeof value;
 
   return valueType === 'object' 
-    ? processObjectValue({ key, value, options, prefix, output}) 
-    : processNonObjectValue(key, value, prefix, options);
+    ? processObjectValue({ key: params.key, value, options: params.options, prefix: params.prefix, output: params.output}) 
+    : processNonObjectValue(params.key, value, params.prefix, params.options);
 }
 
 function processKeys(tokensObj: Record<string, any>, options: Options, prefix: string): string {
   let output = '';
   for (const key in tokensObj) {
     if (tokensObj.hasOwnProperty(key)) {
-      output += processKey(key, tokensObj, options, prefix, output);
+      output += processKey({ key, tokensObj, options, prefix, output });
     }
   }
   return output;
