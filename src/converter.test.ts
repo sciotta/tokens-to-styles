@@ -1,6 +1,6 @@
-import { tokensToCssModule } from './code';
+import { TokensConverter } from '.';
 
-describe('tokensToCssModule function', () => {
+describe('toCssVariables function', () => {
   test('should generate CSS variables', () => {
     const tokensObj = {
       fontSize: 16,
@@ -12,7 +12,8 @@ describe('tokensToCssModule function', () => {
       unit: 'px',
     };
 
-    const result = tokensToCssModule(tokensObj, options);
+    const tokensConverter = new TokensConverter(options);
+    const result = tokensConverter.toCssVariables(tokensObj);
     const expectedOutput = `:root {\n  --font-size: 16px;\n  --color: red;\n}`;
 
     expect(result).toBe(expectedOutput);
@@ -31,7 +32,8 @@ describe('tokensToCssModule function', () => {
       unit: 'px',
     };
 
-    const result = tokensToCssModule(tokensObj, options);
+    const tokensConverter = new TokensConverter(options);
+    const result = tokensConverter.toCssVariables(tokensObj);
     const expectedOutput = `:root {\n  /* spacing */\n  --spacing-small: 8px;\n  --spacing-medium: 16px;\n}`;
 
     expect(result).toBe(expectedOutput);
@@ -47,7 +49,8 @@ describe('tokensToCssModule function', () => {
       unit: 'px',
     };
 
-    const result = tokensToCssModule(tokensObj, options);
+    const tokensConverter = new TokensConverter(options);
+    const result = tokensConverter.toCssVariables(tokensObj);
     const expectedOutput = `:root {\n  --font-size: 16px;\n}`;
 
     expect(result).toBe(expectedOutput);
@@ -69,7 +72,8 @@ describe('tokensToCssModule function', () => {
       },
     };
 
-    const result = tokensToCssModule(tokensObj, options);
+    const tokensConverter = new TokensConverter(options);
+    const result = tokensConverter.toCssVariables(tokensObj);
     const expectedOutput = `:root {\n  --font-sizeabc: 16px;\n}`;
 
     expect(result).toBe(expectedOutput);
