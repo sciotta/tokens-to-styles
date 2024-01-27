@@ -7,7 +7,7 @@ A simple JavaScript library for converting design tokens into CSS variables expo
 
 ## Installation
 
-You can install `tokens-to-styles` using npm isntall command:
+You can install `tokens-to-styles` using npm install command:
 
 ```bash
 npm install tokens-to-styles
