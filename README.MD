@@ -34,7 +34,7 @@ const css = TokensConverter.toCssVariables(tokens);
 console.log(css);
 ```
 
-This will output:
+This will output the following CSS:
 
 ```css
 :root {
