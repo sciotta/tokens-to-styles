@@ -2,8 +2,14 @@
   "name": "tokens-to-styles",
   "version": "2.0.0",
   "description": "An util repository to convert or sync object tokens to CSS module variables",
+  "author": "Thiago Sciotta <thiagog3@gmail.com>",
+  "homepage": "https://tokens-to-styles.sciotta.com.br/",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sciotta/tokens-to-styles"
+  },
   "scripts": {
     "build": "tsc",
     "test": "jest",
@@ -11,7 +17,6 @@
     "generate-docs": "typedoc"
   },
   "keywords": [],
-  "author": "Thiago Sciotta",
   "license": "MIT",
   "dependencies": {
     "js-beautify": "^1.14.9"
